@@ -1,0 +1,63 @@
+export const seedData = {
+  countries: [
+    {
+      name: 'New Zealand',
+      slug: 'new-zealand',
+      image: 'https://worldpassport.in/wp-content/uploads/2025/12/87154227_gettyimages-492306228-420x420.jpg',
+      description: "Experience world-class education, attractive scholarships, and dynamic cultural life in New Zealand. We're here to make your study and career path effortless.",
+      services: ['Student Visa & University Admission', 'Visitor Visa Guidance', 'Business Visa Support', 'Skill Development', 'Scholarship & Financial Assistance', 'Cultural Orientation & Accommodation Support'],
+      featured: true,
+    },
+    {
+      name: 'Mauritius',
+      slug: 'mauritius',
+      image: 'https://worldpassport.in/wp-content/uploads/2025/12/2579decb5aaf63b45b854345da18f247-420x420.jpg',
+      description: 'Mauritius offers world-class universities, attractive scholarships, and rich cultural exposure. We ensure your study and career journey is smooth and hassle-free.',
+      services: ['Student Visa & University Admission', 'Visitor Visa Guidance', 'Business Visa Support', 'Skill Development', 'Scholarship & Financial Assistance', 'Cultural Orientation & Accommodation Support'],
+      featured: true,
+    },
+    {
+      name: 'Malta',
+      slug: 'malta',
+      image: 'https://worldpassport.in/wp-content/uploads/2023/10/malta-flag.jpg',
+      description: 'Discover affordable, globally recognized European education with career pathways across the EU. We ensure smooth admission, visa, and settlement.',
+      services: ['Student Visa & Admission Support', 'Visitor Visa Processing', 'Work Visa & Internship Guidance', 'Business Visa Applications', 'Post-Arrival & Settlement Assistance', 'Scholarship & Financial Guidance'],
+      featured: true,
+    },
+    {
+      name: 'Malaysia',
+      slug: 'malaysia',
+      image: 'https://worldpassport.in/wp-content/uploads/2025/08/malaysia-flag.jpg',
+      description: 'Malaysia provides affordable, high-quality education in a multicultural environment. We help you build a cost-effective and globally recognized career.',
+      services: ['Student Visa & Admission Assistance', 'Visitor Visa Guidance', 'Scholarship & Financial Assistance', 'Work Visa & Internship Opportunities', 'Business Visa Processing', 'Pre-Departure & Post-Arrival Support'],
+      featured: true,
+    },
+    {
+      name: 'Singapore',
+      slug: 'singapore',
+      image: 'https://worldpassport.in/wp-content/uploads/2025/08/sg-final-420x420.webp',
+      description: 'Singapore offers world-class universities, scholarships, and vibrant cultural exposure. We make your study and career journey seamless.',
+      services: ['Student Visa & University Admission', 'Visitor Visa Guidance', 'Business Visa Support', 'Skill Development', 'Scholarship & Financial Assistance', 'Cultural Orientation & Accommodation Support'],
+      featured: true,
+    },
+  ],
+  programs: [
+    { title: 'Undergraduate Programs', description: "Start your academic journey with internationally recognized bachelor's degrees designed to build strong foundations and prepare you for global careers.", icon: 'GraduationCap', category: 'undergraduate' },
+    { title: 'Postgraduate Programs', description: "Advance your knowledge and skills through specialized master's degrees that open doors to leadership roles and international opportunities.", icon: 'BookOpen', category: 'postgraduate' },
+    { title: 'Doctoral Programs', description: 'Pursue groundbreaking research and achieve the highest academic qualifications with internationally recognized doctoral programs.', icon: 'Award', category: 'doctoral' },
+    { title: 'Diploma & Foundation Courses', description: 'Step into higher education with diploma and foundation programs that prepare you for undergraduate study abroad.', icon: 'Certificate', category: 'diploma' },
+  ],
+  services: [
+    { title: 'Visa Consultation', description: 'Expert guidance through the visa application process with personalized support.', features: ['Document Review', 'Application Assistance', 'Interview Preparation', 'Status Tracking'], icon: 'FileText' },
+    { title: 'University Admission', description: 'Direct partnerships with top universities worldwide for seamless admission.', features: ['University Selection', 'Application Filing', 'SOP Writing', 'Admission Follow-up'], icon: 'Building2' },
+    { title: 'IELTS Preparation', description: 'Comprehensive IELTS training with experienced trainers and proven methods.', features: ['Expert Trainers', 'Mock Tests', 'Study Materials', 'Score Guarantee'], icon: 'Languages' },
+    { title: 'Scholarship Assistance', description: 'Help finding and applying for scholarships to make education affordable.', features: ['Scholarship Search', 'Application Help', 'Financial Planning', 'Merit Guidance'], icon: 'Award' },
+  ],
+  testimonials: [
+    { name: 'Aisha Thomas', role: 'Student - Malta', content: 'World Passport guided me through every step of my application. From course selection to visa approval, the process was smooth and stress-free.', image: 'https://worldpassport.in/wp-content/uploads/2025/08/dummy-profile-pic-300x300-1-79x79.png' },
+    { name: 'Rahul Menon', role: 'Student - New Zealand', content: 'I am grateful to World Passport for their transparent guidance. Their counseling helped me choose the right country and course for my career aspirations.', image: 'https://worldpassport.in/wp-content/uploads/2025/08/dummy-profile-pic-300x300-1-79x79.png' },
+    { name: 'Meera Joseph', role: 'Student - Malaysia', content: 'From admission to accommodation, World Passport provided complete support. Their team ensured my transition abroad was comfortable and filled with confidence.', image: 'https://worldpassport.in/wp-content/uploads/2025/08/dummy-profile-pic-300x300-1-79x79.png' },
+  ],
+  partners: [],
+  contacts: [],
+};
