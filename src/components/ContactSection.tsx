@@ -34,7 +34,7 @@ export default function ContactSection() {
   };
 
   const contactInfo = [
-    { icon: Mail, title: 'Send Us Mail', details: 'info@worldpassport.in', color: 'from-red-500 to-red-600' },
+    { icon: Mail, title: 'Send Us Mail', details: 'bm@worldpassport.in', color: 'from-red-500 to-red-600' },
     { icon: Phone, title: 'Call Us Anytime', details: '+91 92050 31277', color: 'from-blue-600 to-blue-700' },
     { icon: MapPin, title: 'Visit Our Office', details: '5th Floor, Kandamkulathy Towers, MG Road, Ernakulam, Kerala – 682011', color: 'from-red-600 to-red-700' },
     { icon: Clock, title: 'Working Hours', details: 'Mon - Sat: 9:00 AM - 6:00 PM', color: 'from-blue-700 to-blue-800' }
