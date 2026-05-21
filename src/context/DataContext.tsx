@@ -60,6 +60,19 @@ export interface Testimonial {
   image: string;
 }
 
+export interface BlogComment {
+  id: string;
+  articlePath: string;
+  articleTitle: string;
+  name: string;
+  email: string;
+  text: string;
+  createdAt: string;
+  status: 'pending' | 'approved' | 'rejected';
+  replyText?: string;
+  repliedAt?: string;
+}
+
 interface DataContextType {
   countries: Country[];
   programs: Program[];
@@ -67,6 +80,7 @@ interface DataContextType {
   partners: Partner[];
   contacts: ContactMessage[];
   testimonials: Testimonial[];
+  comments: BlogComment[];
   // CRUD Operations
   addCountry: (country: Omit<Country, 'id'>) => void;
   updateCountry: (id: string, country: Partial<Country>) => void;
@@ -86,6 +100,9 @@ interface DataContextType {
   addTestimonial: (testimonial: Omit<Testimonial, 'id'>) => void;
   updateTestimonial: (id: string, testimonial: Partial<Testimonial>) => void;
   deleteTestimonial: (id: string) => void;
+  addComment: (comment: Omit<BlogComment, 'id' | 'createdAt'>) => void;
+  updateComment: (id: string, comment: Partial<BlogComment>) => void;
+  deleteComment: (id: string) => void;
 }
 
 const defaultCountries: Country[] = [
@@ -277,11 +294,36 @@ const defaultContacts: ContactMessage[] = [
   }
 ];
 
+const defaultComments: BlogComment[] = [
+  {
+    id: 'c1',
+    articlePath: '/blogs/top-5-benefits-of-studying-abroad',
+    articleTitle: 'Top 5 Benefits of Studying Abroad',
+    name: 'Emily Watson',
+    email: 'emily.watson@example.com',
+    text: 'This article is extremely helpful! Studying abroad has always been a dream of mine, and reading about the personal growth and global network aspects makes me want to apply even sooner. Thank you for the wonderful breakdown.',
+    createdAt: '2026-05-18T14:22:00.000Z',
+    status: 'approved'
+  },
+  {
+    id: 'c2',
+    articlePath: '/blogs/essential-pre-departure-checklist-for-students-going-abroad',
+    articleTitle: 'Essential Pre-Departure Checklist for Students Going Abroad',
+    name: 'David Kim',
+    email: 'david.kim@example.com',
+    text: 'I am leaving for Malta next month, and this checklist is a lifesaver! I almost forgot to double-check my health insurance coverage duration. Super detailed and well-written!',
+    createdAt: '2026-05-19T09:15:00.000Z',
+    status: 'approved',
+    replyText: 'Hi David, glad to hear the checklist helped! Make sure to also keep physical copies of your documents in your carry-on luggage. Safe travels!',
+    repliedAt: '2026-05-19T11:30:00.000Z'
+  }
+];
+
 const DataContext = createContext<DataContextType | undefined>(undefined);
 
 const generateId = () => Math.random().toString(36).substr(2, 9);
 
-type ResourceName = 'countries' | 'programs' | 'services' | 'partners' | 'contacts' | 'testimonials';
+type ResourceName = 'countries' | 'programs' | 'services' | 'partners' | 'contacts' | 'testimonials' | 'comments';
 
 function getFromStorage<T>(key: string, defaultValue: T): T {
   try {
@@ -303,6 +345,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [partners, setPartners] = useState<Partner[]>(() => getFromStorage('wp_partners', defaultPartners));
   const [contacts, setContacts] = useState<ContactMessage[]>(() => getFromStorage('wp_contacts', defaultContacts));
   const [testimonials, setTestimonials] = useState<Testimonial[]>(() => getFromStorage('wp_testimonials', defaultTestimonials));
+  const [comments, setComments] = useState<BlogComment[]>(() => getFromStorage('wp_comments', defaultComments));
 
   useEffect(() => {
     if (!apiEnabled) return;
@@ -313,6 +356,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       partners: Partner[];
       contacts: ContactMessage[];
       testimonials: Testimonial[];
+      comments?: BlogComment[];
     }>('/api/content')
       .then((data) => {
         setCountries(data.countries);
@@ -321,6 +365,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         setPartners(data.partners);
         setContacts(data.contacts);
         setTestimonials(data.testimonials);
+        if (data.comments) setComments(data.comments);
       })
       .catch((error) => console.warn('MongoDB API unavailable, using local data:', error.message));
   }, []);
@@ -369,6 +414,7 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => { setToStorage('wp_partners', partners); }, [partners]);
   useEffect(() => { setToStorage('wp_contacts', contacts); }, [contacts]);
   useEffect(() => { setToStorage('wp_testimonials', testimonials); }, [testimonials]);
+  useEffect(() => { setToStorage('wp_comments', comments); }, [comments]);
 
   // Country CRUD
   const addCountry = (country: Omit<Country, 'id'>) => {
@@ -472,15 +518,33 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     deleteRemote('testimonials', id);
   };
 
+  // Comment CRUD
+  const addComment = (comment: Omit<BlogComment, 'id' | 'createdAt'>) => {
+    const temp = { ...comment, id: generateId(), createdAt: new Date().toISOString() } as BlogComment;
+    setComments(prev => [...prev, temp]);
+    createRemote<BlogComment>('comments', comment, (saved) => {
+      setComments(prev => prev.map(c => c.id === temp.id ? saved : c));
+    });
+  };
+  const updateComment = (id: string, updates: Partial<BlogComment>) => {
+    setComments(prev => prev.map(c => c.id === id ? { ...c, ...updates } : c));
+    updateRemote('comments', id, updates);
+  };
+  const deleteComment = (id: string) => {
+    setComments(prev => prev.filter(c => c.id !== id));
+    deleteRemote('comments', id);
+  };
+
   return (
     <DataContext.Provider value={{
-      countries, programs, services, partners, contacts, testimonials,
+      countries, programs, services, partners, contacts, testimonials, comments,
       addCountry, updateCountry, deleteCountry,
       addProgram, updateProgram, deleteProgram,
       addService, updateService, deleteService,
       addPartner, updatePartner, deletePartner,
       addContact, updateContact, deleteContact,
-      addTestimonial, updateTestimonial, deleteTestimonial
+      addTestimonial, updateTestimonial, deleteTestimonial,
+      addComment, updateComment, deleteComment
     }}>
       {children}
     </DataContext.Provider>

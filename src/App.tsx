@@ -9,6 +9,7 @@ import Home from './pages/Home';
 import AdminLogin from './pages/AdminLogin';
 import ContactPage from './pages/ContactPage';
 import AboutUs from './pages/AboutUs';
+import Services from './pages/Services';
 import ViewAllServices from './pages/ViewAllServices';
 import BecomePartner from './pages/BecomePartner';
 import ProgramsPage from './pages/ProgramsPage';
@@ -30,6 +31,7 @@ import AdminServices from './admin/AdminServices';
 import AdminPartners from './admin/AdminPartners';
 import AdminContacts from './admin/AdminContacts';
 import AdminTestimonials from './admin/AdminTestimonials';
+import AdminComments from './admin/AdminComments';
 import './index.css';
 
 function App() {
@@ -50,6 +52,13 @@ function App() {
             <div className="min-h-screen bg-white">
               <Navbar />
               <AboutUs />
+              <Footer />
+            </div>
+          } />
+          <Route path="/services" element={
+            <div className="min-h-screen bg-white">
+              <Navbar />
+              <Services />
               <Footer />
             </div>
           } />
@@ -163,6 +172,7 @@ function App() {
             <Route path="services" element={<AdminServices />} />
             <Route path="partners" element={<AdminPartners />} />
             <Route path="contacts" element={<AdminContacts />} />
+            <Route path="comments" element={<AdminComments />} />
             <Route path="testimonials" element={<AdminTestimonials />} />
           </Route>
           </Routes>

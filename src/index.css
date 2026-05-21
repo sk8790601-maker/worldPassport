@@ -48,3 +48,137 @@ html {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+/* ============================================
+   WATCHMAKER AI — CINEMATIC ANIMATIONS
+   ============================================ */
+
+/* Shimmer sweep across cards */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-200%) skewX(-15deg); }
+  100% { transform: translateX(300%)  skewX(-15deg); }
+}
+
+/* Pulse ring expanding outward */
+@keyframes pulse-ring-out {
+  0%   { transform: scale(1);   opacity: 0.6; }
+  100% { transform: scale(2.4); opacity: 0;   }
+}
+
+/* Particle floating up */
+@keyframes float-particle {
+  0%   { transform: translateY(0)      translateX(0);                    opacity: 0; }
+  15%  { opacity: 0.75; }
+  85%  { opacity: 0.75; }
+  100% { transform: translateY(-130px) translateX(var(--pdrift, 30px)); opacity: 0; }
+}
+
+/* Orbit spin */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg)   translateX(var(--orbit-r, 70px)) rotate(0deg);   }
+  to   { transform: rotate(360deg) translateX(var(--orbit-r, 70px)) rotate(-360deg); }
+}
+
+/* Glow breathe on CTA buttons */
+@keyframes glow-breathe {
+  0%, 100% { box-shadow: 0 0 18px 0px rgba(220,38,38,0.35); }
+  50%       { box-shadow: 0 0 42px 8px  rgba(220,38,38,0.60); }
+}
+
+/* Badge scan-line sweep */
+@keyframes scan-line {
+  0%   { left: -60%; }
+  100% { left: 160%; }
+}
+
+/* Connector line draw */
+@keyframes draw-line {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Gradient shift for borders */
+@keyframes gradient-shift {
+  0%,100% { background-position: 0%   50%; }
+  50%      { background-position: 100% 50%; }
+}
+
+/* ---- Utility Classes ---- */
+
+/* Shimmer sweep on any card */
+.shimmer-card {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255,255,255,0.13) 50%,
+    transparent 70%
+  );
+  animation: shimmer-sweep 4.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Pulsing ring behind icon wrappers */
+.pulse-ring {
+  position: relative;
+}
+.pulse-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: inherit;
+  animation: pulse-ring-out 2.2s ease-out infinite;
+  z-index: 0;
+}
+
+/* Glow breathe CTA */
+.glow-btn {
+  animation: glow-breathe 3s ease-in-out infinite;
+}
+
+/* Scan badge */
+.scan-badge {
+  position: relative;
+  overflow: hidden;
+}
+.scan-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+  animation: scan-line 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+/* Animated gradient border on hover */
+.grad-border {
+  position: relative;
+}
+.grad-border::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  border-radius: inherit;
+  background: linear-gradient(90deg,#dc2626,#1d4ed8,#dc2626);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.grad-border:hover::before {
+  opacity: 1;
+}
+

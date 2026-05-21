@@ -3,7 +3,8 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   LayoutDashboard, Globe, GraduationCap, FileText, Handshake,
-  MessageSquare, Star, Menu, X, ArrowLeft, ChevronRight, LogOut
+  MessageSquare, Star, Menu, X, ArrowLeft, ChevronRight, LogOut,
+  MessageCircle
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -14,6 +15,7 @@ const menuItems = [
   { path: '/admin/services', icon: FileText, label: 'Services' },
   { path: '/admin/partners', icon: Handshake, label: 'Partners' },
   { path: '/admin/contacts', icon: MessageSquare, label: 'Contact Us' },
+  { path: '/admin/comments', icon: MessageCircle, label: 'Comments' },
   { path: '/admin/testimonials', icon: Star, label: 'Testimonials' },
 ];
 

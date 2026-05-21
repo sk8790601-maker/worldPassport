@@ -36,6 +36,7 @@ const models = {
   partners: mongoose.model('Partner', dataSchema, 'partners'),
   contacts: mongoose.model('Contact', dataSchema, 'contacts'),
   testimonials: mongoose.model('Testimonial', dataSchema, 'testimonials'),
+  comments: mongoose.model('Comment', dataSchema, 'comments'),
 };
 
 const normalizeDoc = (doc) => {

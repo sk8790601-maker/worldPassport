@@ -60,4 +60,5 @@ export const seedData = {
   ],
   partners: [],
   contacts: [],
+  comments: [],
 };

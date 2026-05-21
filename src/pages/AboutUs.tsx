@@ -1,18 +1,23 @@
 import { useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Globe, Award, Users, Target, Quote, CheckCircle, Sparkles, Shield } from 'lucide-react';
-import aboutImage from '../Public/images/studyabroadaboutimage.jpg';
+import aboutImage from '../Public/images/studyabroadaboutimage.jpg'
 
 export default function AboutUs() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
+  const { scrollYProgress } = useScroll();
+  const smoothProgress = useSpring(scrollYProgress, { damping: 15, stiffness: 100 });
+  const heroY = useTransform(smoothProgress, [0, 0.3], [0, 150]);
+  const heroOpacity = useTransform(smoothProgress, [0, 0.2], [1, 0]);
+
   const stats = [
-    { icon: Globe, title: "50+", desc: "Countries", color: "from-red-500 to-red-700", shadow: "shadow-red-500/20" },
-    { icon: Users, title: "5000+", desc: "Students Placed", color: "from-blue-600 to-blue-800", shadow: "shadow-blue-500/20" },
-    { icon: Award, title: "100%", desc: "Visa Success Rate", color: "from-red-600 to-red-800", shadow: "shadow-red-500/20" },
-    { icon: Target, title: "15+", desc: "Years Experience", color: "from-blue-700 to-blue-900", shadow: "shadow-blue-500/20" },
+    { icon: Globe, title: "3+", desc: "Countries", color: "from-red-500 to-red-700", shadow: "shadow-red-500/20", border: "border-red-500/30" },
+    { icon: Users, title: "2500+", desc: "Students Placed", color: "from-blue-600 to-blue-800", shadow: "shadow-blue-500/20", border: "border-blue-500/30" },
+    { icon: Award, title: "100%", desc: "Visa Success Rate", color: "from-red-600 to-red-800", shadow: "shadow-red-500/20", border: "border-red-500/30" },
+    { icon: Target, title: "15+", desc: "Years Experience", color: "from-blue-700 to-blue-900", shadow: "shadow-blue-500/20", border: "border-blue-500/30" },
   ];
 
   const missionVision = [
@@ -34,108 +39,126 @@ export default function AboutUs() {
     },
   ];
 
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.15, delayChildren: 0.1 } }
+  };
+
   return (
-    <div className="bg-white min-h-screen relative overflow-hidden pb-20">
-      {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-red-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-[40%] left-0 w-[600px] h-[600px] bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="bg-[#020617] min-h-screen relative overflow-hidden pb-20 selection:bg-red-500 selection:text-white text-slate-200">
       
+      {/* Background Image & Grid Overlay */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <div 
+          className="absolute inset-0 opacity-[0.05] mix-blend-screen"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundAttachment: 'fixed'
+          }}
+        />
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_0%,#000_70%,transparent_100%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#020617]/80 to-[#020617]" />
+      </div>
+
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-red-800 via-red-700 to-blue-950 text-white pt-32 pb-28 overflow-hidden">
-        {/* Abstract pattern overlays */}
-        <div className="absolute inset-0 opacity-10">
-          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="about-hero-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="white" strokeWidth="1.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#about-hero-grid)" />
-          </svg>
-        </div>
-        
-        {/* Glowing visual spheres */}
+      <div className="relative pt-32 pb-32 overflow-hidden z-10 border-b border-white/5">
         <motion.div 
-          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.5, 0.3] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute -top-24 right-[10%] w-96 h-96 bg-red-500/20 rounded-full blur-3xl"
+          animate={{ rotate: 360, scale: [1, 1.2, 1] }}
+          transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          className="absolute -top-[20%] -right-[10%] w-[800px] h-[800px] bg-red-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
         />
         <motion.div 
-          animate={{ scale: [1.2, 1, 1.2], opacity: [0.2, 0.4, 0.2] }}
-          transition={{ duration: 8, repeat: Infinity }}
-          className="absolute -bottom-24 left-[10%] w-96 h-96 bg-blue-500/30 rounded-full blur-3xl"
+          animate={{ rotate: -360, scale: [1, 1.3, 1] }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute -bottom-[20%] -left-[10%] w-[800px] h-[800px] bg-blue-600/10 rounded-full blur-[120px] mix-blend-screen pointer-events-none"
         />
 
-        <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
+        <motion.div 
+          style={{ y: heroY, opacity: heroOpacity }}
+          variants={staggerContainer}
+          initial="hidden"
+          animate="visible"
+          className="relative max-w-7xl mx-auto px-6 text-center z-10"
+        >
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-5 py-2 bg-white/10 backdrop-blur-md rounded-full text-red-200 text-xs sm:text-sm font-bold tracking-widest uppercase mb-6 border border-white/10 shadow-lg"
+            variants={fadeUpVariant}
+            whileHover={{ scale: 1.05 }}
+            className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 backdrop-blur-xl rounded-full text-white text-xs sm:text-sm font-bold tracking-widest uppercase mb-8 border border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.05)] cursor-default"
           >
-            <Sparkles size={16} className="text-red-300" /> ABOUT OUR COMPANY
+            <Sparkles size={16} className="text-red-400" /> 
+            <span className="bg-gradient-to-r from-slate-200 to-slate-400 bg-clip-text text-transparent">ABOUT OUR COMPANY</span>
           </motion.div>
 
           <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 tracking-tight leading-tight"
+            variants={fadeUpVariant}
+            className="text-5xl md:text-7xl lg:text-8xl font-extrabold mb-8 tracking-tighter leading-[1.1]"
           >
-            About <span className="bg-gradient-to-r from-white via-red-100 to-red-200 bg-clip-text text-transparent">Us</span>
+            <span className="text-white">About </span>
+            <span className="relative inline-block">
+              <span className="bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent relative z-10">Us</span>
+              <div className="absolute -inset-4 bg-gradient-to-r from-red-500/20 to-blue-500/20 blur-2xl -z-10 rounded-full" />
+            </span>
           </motion.h1>
 
           <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl md:text-2xl max-w-3xl mx-auto text-blue-50/90 font-medium leading-relaxed"
+            variants={fadeUpVariant}
+            className="text-xl md:text-3xl max-w-3xl mx-auto text-slate-400 font-medium leading-relaxed tracking-wide"
           >
             Your trusted partner in shaping global educational journeys
           </motion.p>
           
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="w-24 h-1.5 bg-gradient-to-r from-white to-red-400 mx-auto mt-8 rounded-full shadow-md"
-          />
-        </div>
-
-        {/* Slanted decorative edge */}
-        <div className="absolute bottom-0 left-0 right-0 h-8 bg-white" style={{ clipPath: 'polygon(0 100%, 100% 0, 100% 100%)' }} />
+            variants={fadeUpVariant}
+            className="flex justify-center mt-12"
+          >
+            <div className="w-px h-24 bg-gradient-to-b from-blue-500 via-red-500 to-transparent" />
+          </motion.div>
+        </motion.div>
       </div>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-6 pt-16 pb-8 z-10 relative">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-24">
+      <div className="max-w-7xl mx-auto px-6 pt-24 pb-8 z-10 relative">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center mb-32">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
           >
-            <span className="text-sm font-bold text-blue-700 tracking-widest uppercase block mb-3">
-              PREMIER CONSULTANCY
-            </span>
-            <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-6 leading-tight">
-              Welcome to <span className="bg-gradient-to-r from-red-600 to-blue-800 bg-clip-text text-transparent">World Passport</span>
-            </h2>
+            <motion.div variants={fadeUpVariant} className="flex items-center gap-3 mb-6">
+              <div className="h-px w-8 bg-blue-500" />
+              <span className="text-sm font-bold text-blue-400 tracking-widest uppercase">
+                PREMIER CONSULTANCY
+              </span>
+            </motion.div>
             
-            <div className="w-16 h-1 bg-red-600 rounded-full mb-6" />
+            <motion.h2 variants={fadeUpVariant} className="text-4xl md:text-5xl font-extrabold text-white mb-8 leading-tight">
+              Welcome to <br/>
+              <span className="bg-gradient-to-r from-red-500 to-blue-500 bg-clip-text text-transparent">World Passport</span>
+            </motion.h2>
 
-            <div className="space-y-5 text-lg text-gray-600 leading-relaxed">
-              <p className="bg-gradient-to-r from-red-50/50 to-transparent p-4 rounded-xl border-l-4 border-red-600 font-medium text-gray-800">
-                We are a premier education consultancy based in Kerala, dedicated to helping students achieve their dreams of studying abroad. 
-                With years of experience and a passion for global education, we simplify the complex process of international admissions.
-              </p>
-              <p>
+            <motion.div variants={fadeUpVariant} className="space-y-6 text-lg text-slate-400 leading-relaxed">
+              <div className="relative group">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-red-500/10 rounded-2xl blur-xl transition-opacity opacity-0 group-hover:opacity-100" />
+                <p className="relative bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10 text-slate-200">
+                  We are a premier education consultancy based in Kerala, dedicated to helping students achieve their dreams of studying abroad. 
+                  With years of experience and a passion for global education, we simplify the complex process of international admissions.
+                </p>
+              </div>
+              <p className="px-2">
                 Our mission is to provide personalized guidance, expert counseling, and end-to-end support to make your study abroad journey smooth and successful.
               </p>
-            </div>
+            </motion.div>
 
             {/* Feature lists tags */}
-            <div className="mt-8 grid sm:grid-cols-2 gap-3">
+            <motion.div variants={staggerContainer} className="mt-10 grid sm:grid-cols-2 gap-4 px-2">
               {[
                 "Global University Tie-ups",
                 "Dedicated Admission Cell",
@@ -144,178 +167,259 @@ export default function AboutUs() {
               ].map((item, idx) => (
                 <motion.div 
                   key={idx}
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.4 + idx * 0.1 }}
-                  className="flex items-center gap-2.5 text-sm font-bold text-gray-800"
+                  variants={fadeUpVariant}
+                  whileHover={{ x: 5, backgroundColor: "rgba(255,255,255,0.05)" }}
+                  className="flex items-center gap-3 text-sm font-bold text-slate-300 p-2 rounded-lg transition-colors cursor-default"
                 >
-                  <CheckCircle size={18} className="text-red-600 flex-shrink-0" />
+                  <div className="bg-white/10 p-1.5 rounded-md text-red-400 border border-white/5 shadow-[0_0_10px_rgba(239,68,68,0.2)]">
+                    <CheckCircle size={16} className="flex-shrink-0" />
+                  </div>
                   <span>{item}</span>
                 </motion.div>
               ))}
-            </div>
+            </motion.div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7 }}
+            initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
+            whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
             className="relative"
+            style={{ perspective: 1000 }}
           >
             {/* Glowing backdrop shadow */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-red-600 to-blue-700 rounded-3xl opacity-20 blur-xl animate-pulse" />
+            <div className="absolute -inset-10 bg-gradient-to-tr from-red-600/20 to-blue-600/20 rounded-full blur-[80px] animate-pulse" />
             
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white">
-              <motion.img 
-                whileHover={{ scale: 1.03 }}
-                transition={{ duration: 0.6 }}
-               src={aboutImage}
-                alt="World Passport Team" 
-                className="w-full h-[400px] sm:h-[480px] object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-blue-950/70 via-blue-950/20 to-transparent" />
-              
-              {/* Overlay highlight badge */}
-              <div className="absolute bottom-6 left-6 right-6 bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/20">
-                <p className="text-sm font-bold text-red-600 uppercase tracking-wider mb-1"> Kerala's Most Trusted</p>
-                <p className="text-xl font-extrabold text-gray-900">Your Gateway to Global Careers</p>
+            <div className="relative rounded-[2rem] overflow-hidden bg-white/5 backdrop-blur-2xl border border-white/10 p-2 shadow-[0_0_50px_rgba(0,0,0,0.5)]">
+              <div className="relative rounded-[1.5rem] overflow-hidden group">
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  className="w-full h-full"
+                >
+                  <img 
+                    src={aboutImage}
+                    alt="World Passport Team" 
+                    className="w-full h-[450px] sm:h-[550px] object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                </motion.div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/20 to-transparent pointer-events-none" />
+                
+                {/* Overlay highlight badge */}
+                <motion.div 
+                  initial={{ y: 50, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4, duration: 0.6 }}
+                  className="absolute bottom-6 left-6 right-6 bg-white/10 backdrop-blur-xl p-6 rounded-2xl shadow-2xl border border-white/20 transform transition-all group-hover:-translate-y-2"
+                >
+                  <p className="text-xs font-bold text-red-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                    <Sparkles size={14} /> Kerala's Most Trusted
+                  </p>
+                  <p className="text-xl font-extrabold text-white">Your Gateway to Global Careers</p>
+                </motion.div>
               </div>
             </div>
-
-            {/* Decorative dot grid pattern */}
-            <div className="absolute -top-6 -right-6 w-24 h-24 bg-red-100 rounded-2xl -z-10 opacity-70" />
-            <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-blue-100 rounded-2xl -z-10 opacity-70" />
           </motion.div>
         </div>
 
         {/* Values / Stats */}
-        <div className="mb-24">
-          <div className="text-center mb-12">
-            <span className="text-xs font-bold text-red-600 tracking-widest uppercase bg-red-50 px-4 py-1.5 rounded-full">
+        <div className="mb-32">
+          <motion.div 
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer}
+            className="text-center mb-16"
+          >
+            <motion.div variants={fadeUpVariant} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-bold tracking-widest uppercase mb-6">
               OUR MILESTONES
-            </span>
-            <h3 className="text-3xl font-extrabold text-gray-900 mt-3">Proven Excellence in Numbers</h3>
-          </div>
+            </motion.div>
+            <motion.h3 variants={fadeUpVariant} className="text-3xl md:text-5xl font-extrabold text-white">Proven Excellence in Numbers</motion.h3>
+          </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-8"
+          >
             {stats.map((item, i) => {
               const IconComponent = item.icon;
               return (
                 <motion.div 
                   key={i}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.5 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  className={`bg-white p-8 rounded-2xl shadow-xl border border-gray-100 text-center transition-all relative overflow-hidden group ${item.shadow}`}
+                  variants={fadeUpVariant}
+                  whileHover={{ y: -10 }}
+                  className={`bg-white/5 backdrop-blur-xl p-8 rounded-3xl border ${item.border} text-center transition-all relative overflow-hidden group hover:bg-white/10`}
                 >
-                  {/* Top line indicator */}
-                  <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.color}`} />
+                  <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${item.color} transform origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-500`} />
                   
-                  <div className={`w-16 h-16 mx-auto bg-gradient-to-br ${item.color} rounded-2xl flex items-center justify-center text-white mb-5 shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-300`}>
-                    <IconComponent className="w-8 h-8" />
+                  <div className="w-16 h-16 mx-auto bg-white/5 rounded-2xl flex items-center justify-center text-white mb-6 border border-white/10 group-hover:scale-110 transition-transform duration-300 relative">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${item.color} opacity-20 rounded-2xl blur-md group-hover:opacity-40 transition-opacity`} />
+                    <IconComponent className="w-8 h-8 relative z-10" />
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2 tracking-tight group-hover:text-red-600 transition-colors">
+                  <h3 className="text-3xl md:text-4xl font-extrabold text-white mb-2 tracking-tight drop-shadow-md">
                     {item.title}
                   </h3>
                   
-                  <p className="text-gray-600 font-bold text-sm tracking-wide uppercase">
+                  <p className="text-slate-400 font-bold text-xs sm:text-sm tracking-wide uppercase">
                     {item.desc}
                   </p>
                 </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
 
         {/* Message from CEO Section */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="bg-gradient-to-br from-blue-900 via-blue-950 to-red-950 rounded-3xl p-8 sm:p-12 lg:p-16 text-white mb-24 relative overflow-hidden shadow-2xl"
+          initial={{ opacity: 0, y: 50, scale: 0.95 }}
+          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          viewport={{ once: true, margin: "-100px" }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="bg-white/5 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] p-8 sm:p-12 lg:p-16 text-white mb-32 relative overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.3)] group"
         >
-          {/* Subtle line background */}
-          <div className="absolute inset-0 opacity-5">
-            <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <pattern id="ceo-grid" width="30" height="30" patternUnits="userSpaceOnUse">
-                  <path d="M 30 0 L 0 0 0 30" fill="none" stroke="white" strokeWidth="1"/>
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#ceo-grid)" />
-            </svg>
-          </div>
+          {/* Cyber grid internal background */}
+          <div className="absolute inset-0 opacity-[0.02] bg-[radial-gradient(circle_at_center,_white_1px,_transparent_1px)] [background-size:24px_24px]" />
+          <div className="absolute -top-40 -right-40 w-96 h-96 bg-red-500/10 blur-[100px] rounded-full mix-blend-screen" />
+          <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-blue-500/10 blur-[100px] rounded-full mix-blend-screen" />
 
-          <div className="absolute top-8 right-8 text-red-500/20 pointer-events-none">
-            <Quote size={120} />
-          </div>
+          <motion.div 
+            initial={{ rotate: -10, opacity: 0, x: 50 }}
+            whileInView={{ rotate: 0, opacity: 0.05, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+            className="absolute top-8 right-8 text-white pointer-events-none"
+          >
+            <Quote size={140} />
+          </motion.div>
 
           <div className="relative max-w-4xl mx-auto z-10">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-red-600 text-white rounded-full text-xs font-bold uppercase tracking-wider mb-6 shadow-md">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 bg-red-500/10 border border-red-500/20 text-red-400 rounded-full text-xs font-bold uppercase tracking-widest mb-8"
+            >
               LEADERSHIP PERSPECTIVE
-            </div>
+            </motion.div>
             
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-8">
-              Message from <span className="text-red-400">CEO</span>
-            </h2>
+            <motion.h2 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white mb-10"
+            >
+              Message from <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-red-600">CEO</span>
+            </motion.h2>
 
-            <div className="text-lg sm:text-2xl text-blue-50/95 leading-[1.7] text-center font-medium max-w-4xl mx-auto">
-              <p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="text-lg sm:text-2xl text-slate-300 leading-[1.8] font-medium max-w-4xl mx-auto relative"
+            >
+              <div className="absolute -left-6 -top-6 text-white/5">
+                <Quote size={40} />
+              </div>
+              <p className="relative z-10 pl-6 border-l-2 border-white/10">
                 At World Passport, we believe education is more than just academics – it is the gateway to opportunity, growth, and global exposure. Our mission is to empower students with the right knowledge, guidance, and support so they can step confidently into an international career. Every student’s dream is unique, and so is our approach. We ensure that each journey is handled with honesty, transparency, and personalized care. From choosing the right university to settling into a new country, we walk with our students every step of the way. As we continue to expand globally, our commitment remains the same – to be a trusted partner in shaping the future of students who aspire to study abroad. Your success is our pride, and your journey
               </p>
-            </div>
+            </motion.div>
 
-            <div className="mt-10 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-4">
-              <div>
-                <p className="font-extrabold text-white text-lg">Chief Executive Officer</p>
-                <p className="text-sm text-red-300 font-medium">World Passport Global Education</p>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-between gap-6"
+            >
+              <div className="flex items-center gap-4">
+                <div className="w-14 h-14 rounded-full bg-gradient-to-br from-red-500 to-blue-600 flex items-center justify-center p-[2px]">
+                  <div className="w-full h-full bg-[#020617] rounded-full flex items-center justify-center">
+                    <Users size={20} className="text-white" />
+                  </div>
+                </div>
+                <div>
+                  <p className="font-extrabold text-white text-lg tracking-wide">Chief Executive Officer</p>
+                  <p className="text-sm text-slate-400 font-semibold tracking-wide">World Passport Global Education</p>
+                </div>
               </div>
-              <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-xl backdrop-blur-sm border border-white/10">
-                <Shield size={16} className="text-red-400" />
+              <motion.div 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255,255,255,0.05)" }}
+                className="flex items-center gap-2 bg-white/5 px-5 py-3 rounded-xl border border-white/10 cursor-default transition-colors"
+              >
+                <Shield size={18} className="text-red-400" />
                 <span className="text-xs font-bold text-white tracking-widest uppercase">Honesty & Transparency</span>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
           </div>
         </motion.div>
 
         {/* Mission & Vision */}
-        <div className="mb-24">
-          <div className="hidden md:block max-w-5xl mx-auto h-px bg-dashed bg-gradient-to-r from-blue-200 via-blue-300 to-blue-200 mb-[-32px]" />
-          <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="mb-24 relative">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start relative z-10">
             {missionVision.map((item, i) => (
               <motion.div
                 key={item.title}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.15 }}
-                className="text-center"
+                initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.8, delay: i * 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="bg-white/5 backdrop-blur-xl rounded-[2rem] p-8 sm:p-10 border border-white/10 relative group overflow-hidden"
               >
-                <div className="relative flex justify-center mb-8">
+                {/* Cyber Hover Glow */}
+                <div className={`absolute top-0 ${item.align === 'left' ? 'left-0' : 'right-0'} w-full h-full bg-gradient-to-br ${item.color} opacity-0 group-hover:opacity-10 transition-opacity duration-700`} />
+                <div className={`absolute -top-20 ${item.align === 'left' ? '-left-20' : '-right-20'} w-64 h-64 bg-gradient-to-br ${item.color} blur-[80px] opacity-10 group-hover:opacity-20 transition-opacity duration-700`} />
+                
+                <div className="relative flex justify-center mb-10">
                   <div className="relative">
-                    <motion.img
-                      whileHover={{ scale: 1.04 }}
-                      transition={{ duration: 0.5 }}
-                      src={item.image}
-                      alt={item.title}
-                      className="w-64 h-64 md:w-72 md:h-72 rounded-full object-cover shadow-2xl border-[10px] border-white"
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ duration: 0.5, ease: "easeOut" }}
+                      className="relative z-10"
+                    >
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-56 h-56 md:w-64 md:h-64 rounded-full object-cover border-4 border-white/10 shadow-[0_0_30px_rgba(0,0,0,0.5)]"
+                      />
+                    </motion.div>
+                    
+                    {/* Decorative orbiting element */}
+                    <motion.div 
+                      animate={{ rotate: 360 }}
+                      transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0 rounded-full border border-white/20 scale-[1.15] border-dashed"
                     />
-                    <div className={`absolute left-1/2 -translate-x-1/2 -bottom-4 w-16 h-16 rounded-full bg-gradient-to-br ${item.color} flex items-center justify-center shadow-xl border-8 border-white`}>
-                      <div className="w-4 h-4 rounded-full bg-white" />
-                    </div>
+                    <motion.div 
+                      animate={{ rotate: -360 }}
+                      transition={{ duration: 40, repeat: Infinity, ease: "linear" }}
+                      className="absolute inset-0 rounded-full border border-white/10 scale-[1.3]"
+                    />
+
+                    <motion.div 
+                      whileHover={{ scale: 1.1 }}
+                      className={`absolute ${item.align === 'left' ? '-right-4' : '-left-4'} bottom-8 w-16 h-16 rounded-2xl bg-gradient-to-br ${item.color} flex items-center justify-center shadow-lg border border-white/20 z-20`}
+                    >
+                      <Sparkles className="text-white w-7 h-7" />
+                    </motion.div>
                   </div>
                 </div>
 
-                <h3 className="text-4xl font-semibold text-blue-900 mb-5">{item.title}</h3>
-                <p className="text-[17px] leading-9 text-gray-600 max-w-2xl mx-auto">
-                  {item.description}
-                </p>
+                <div className="text-center relative z-10">
+                  <h3 className={`text-4xl font-extrabold mb-6 bg-gradient-to-r ${item.color} bg-clip-text text-transparent inline-block`}>{item.title}</h3>
+                  <p className="text-[16px] leading-relaxed text-slate-300 font-medium">
+                    {item.description}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
