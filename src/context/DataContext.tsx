@@ -151,15 +151,8 @@ const defaultCountries: Country[] = [
     services: ['Student Visa & University Admission', 'Visitor Visa Guidance', 'Business Visa Support', 'Skill Development', 'Scholarship & Financial Assistance', 'Cultural Orientation & Accommodation Support'],
     featured: true
   },
-  {
-    id: '6',
-    name: 'South Korea',
-    slug: 'south-korea',
-    image: 'https://worldpassport.in/wp-content/uploads/2025/08/korea-420x420-1.jpg',
-    description: 'South Korea offers cutting-edge technology education, K-culture immersion, and excellent scholarship programs for international students.',
-    services: ['Student Visa & University Admission', 'Language Program Guidance', 'Scholarship Assistance', 'Cultural Orientation', 'Accommodation Support', 'Career Placement Services'],
-    featured: false
-  }
+ 
+  
 ];
 
 const defaultPrograms: Program[] = [
